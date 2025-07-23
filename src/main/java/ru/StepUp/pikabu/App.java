@@ -1,4 +1,4 @@
-package ru.StepUp.students;
+package ru.StepUp.pikabu;
 
 
 

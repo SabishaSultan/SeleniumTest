@@ -1,4 +1,4 @@
-package ru.StepUp.students;
+package ru.StepUp.pikabu;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
