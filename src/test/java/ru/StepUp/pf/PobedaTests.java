@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class PobedaTests {
     private WebDriver driver;
     private HomePage homePage;
+    private HomePage2 homePage2;
 
     @BeforeEach
     public void setUp() {
@@ -24,6 +25,7 @@ public class PobedaTests {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get("https://www.flypobeda.ru/");
         homePage = new HomePage(driver);
+        homePage2 = new HomePage2(driver);
     }
 
     @Test
@@ -45,6 +47,23 @@ public class PobedaTests {
         assertTrue(titles.contains("Подготовка к полету"));
         assertTrue(titles.contains("Полезная информация"));
         assertTrue(titles.contains("О компании"));
+    }
+
+    @Test
+    public void testSearchFunctionality(){
+
+        // Вводим критерии поиска
+        homePage2.enterFrom("Москва");
+        homePage2.enterTo("Санкт-Петербург");
+
+        // Скроллим к блоку поиска и проверяем его наличие
+        homePage2.scrollToSearchBlock();
+
+        // Нажимаем кнопку поиска
+        homePage2.clickSearchButton();
+
+        // Проверяем, что поле "Туда" обведено красной рамкой
+        assertTrue(homePage2.isDepartureFieldHighlighted());
     }
 
     @AfterEach
