@@ -8,13 +8,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import java.time.Duration;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PobedaTests {
     private WebDriver driver;
     private HomePage homePage;
     private HomePage2 homePage2;
+    private HomePage3 homePage3;
 
     @BeforeEach
     public void setUp() {
@@ -26,6 +26,7 @@ public class PobedaTests {
         driver.get("https://www.flypobeda.ru/");
         homePage = new HomePage(driver);
         homePage2 = new HomePage2(driver);
+        homePage3 = new HomePage3(driver);
     }
 
     @Test
@@ -64,6 +65,19 @@ public class PobedaTests {
 
         // Проверяем, что поле "Туда" обведено красной рамкой
         assertTrue(homePage2.isDepartureFieldHighlighted());
+    }
+
+    @Test
+    public void searchResults(){
+
+        //Вводим критерии поиска по бронированию
+        homePage3.clickManageBooking();
+
+        HomePage3 HP3 = new HomePage3(driver);
+        HP3.verifyBookingManagementPage();
+
+        HP3.searchForBooking("XXXXXX", "Qwerty");
+        HP3.verifyErrorMessage();
     }
 
     @AfterEach

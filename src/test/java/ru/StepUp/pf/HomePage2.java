@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class HomePage2 {
+public class HomePage2{
     private WebDriver driver;
     private WebDriverWait wait;
 
@@ -73,4 +73,6 @@ public class HomePage2 {
     public boolean isDepartureFieldHighlighted() {
         return departureDateField.getCssValue("border").contains("red");
     }
+
+
 }
