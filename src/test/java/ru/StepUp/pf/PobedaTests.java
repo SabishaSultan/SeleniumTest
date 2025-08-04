@@ -1,5 +1,6 @@
 package ru.StepUp.pf;
 
+import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,6 +9,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import java.time.Duration;
 import java.util.List;
+
+import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PobedaTests {
@@ -20,21 +23,29 @@ public class PobedaTests {
     public void setUp() {
         // Установка драйвера Chrome
         System.setProperty("webdriver.chrome.driver", "/Chromedriver/chromedriver.exe");
-        driver = new ChromeDriver();
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.get("https://www.flypobeda.ru/");
-        homePage = new HomePage(driver);
-        homePage2 = new HomePage2(driver);
-        homePage3 = new HomePage3(driver);
+        Selenide.open("https://www.flypobeda.ru/");
+        homePage = new HomePage();
+//        driver = new ChromeDriver();
+//        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
+//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+//        driver.get("https://www.flypobeda.ru/");
+//        homePage = new HomePage(driver);
+//        homePage2 = new HomePage2(driver);
+//        homePage3 = new HomePage3(driver);
     }
 
     @Test
     public void testHomePage() {
-        // Проверка заголовка страницы
-        Assertions.assertEquals(driver.getTitle(),"Авиакомпания «Победа» - купить авиабилеты онлайн, дешёвые билеты на самолёт, прямые и трансферные рейсы с пересадками");
+//        // Проверка заголовка страницы
+//        Assertions.assertEquals(driver.getTitle(),"Авиакомпания «Победа» - купить авиабилеты онлайн, дешёвые билеты на самолёт, прямые и трансферные рейсы с пересадками");
+//
+        String expectedTitle = "Авиакомпания «Победа» - купить авиабилеты онлайн, дешёвые билеты на самолёт, прямые и трансферные рейсы с пересадками";
+        String actualTitle = homePage.getPageTitle();
+        assertTrue(actualTitle.equals(expectedTitle));
 
-        // Проверка наличия логотипа
+//        // Проверка наличия логотипа
+//        assertTrue(homePage.isLogoDisplayed());
+
         assertTrue(homePage.isLogoDisplayed());
     }
 
@@ -43,7 +54,7 @@ public class PobedaTests {
         homePage.hoverOverInfoMenu();
 
         // Получение заголовков всплывающего окна
-        List<String> titles = homePage.getInfoTitles();
+       String titles = homePage.getInfoTitles();
         // Проверка наличия необходимых заголовков
         assertTrue(titles.contains("Подготовка к полету"));
         assertTrue(titles.contains("Полезная информация"));
@@ -64,7 +75,7 @@ public class PobedaTests {
         homePage2.clickSearchButton();
 
         // Проверяем, что поле "Туда" обведено красной рамкой
-        assertTrue(homePage2.isDepartureFieldHighlighted());
+        assertTrue(homePage2.isDepartureFieldHighlighted(), "Поле 'Туда' не обведено красной рамкой");
     }
 
     @Test
@@ -73,15 +84,10 @@ public class PobedaTests {
         //Вводим критерии поиска по бронированию
         homePage3.clickManageBooking();
 
-        HomePage3 HP3 = new HomePage3(driver);
-        HP3.verifyBookingManagementPage();
+        homePage3.verifyBookingManagementPage();
 
-        HP3.searchForBooking("XXXXXX", "Qwerty");
-        HP3.verifyErrorMessage();
+        homePage3.searchForBooking("XXXXXX", "Qwerty");
+        homePage3.verifyErrorMessage();
     }
 
-    @AfterEach
-    public void tearDown() {
-            driver.quit();
-    }
 }
