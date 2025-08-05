@@ -14,8 +14,12 @@ import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.codeborne.selenide.Condition.attribute;
+import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.hidden;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
+
 
 public class HomePage {
     private SelenideElement pageTitle = $("title"); // заголовок страницы
@@ -24,7 +28,7 @@ public class HomePage {
     private SelenideElement infoTitles = $("div.dp-1hdvter-root"); // заголовки всплывающего окна
 
     public String getPageTitle() {
-        pageTitle.shouldBe(visible);
+        pageTitle.shouldBe(attribute("title"));
         return pageTitle.getText();
     }
 
