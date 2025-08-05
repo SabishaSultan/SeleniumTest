@@ -28,7 +28,7 @@ public class HomePage {
     private SelenideElement infoTitles = $("div.dp-1hdvter-root"); // заголовки всплывающего окна
 
     public String getPageTitle() {
-        pageTitle.shouldBe(attribute("title"));
+        pageTitle.shouldBe(attribute("title"), Duration.ofSeconds(10));
         return pageTitle.getText();
     }
 
